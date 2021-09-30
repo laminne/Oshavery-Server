@@ -1854,6 +1854,60 @@ paths:
         - emojis
       responses: {}
       operationId: delete-emojis-emojiId
+  /login:
+    post:
+      summary: ログイン
+      tags:
+        - user
+      operationId: post-login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: ''
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+              required:
+                - username
+                - password
+              x-examples:
+                example-1:
+                  username: ''
+                  password: ''
+            examples: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  token:
+                    type: string
+                required:
+                  - token
+                x-examples:
+                  example-1:
+                    token: ''
+              examples:
+                example-1:
+                  token: string
+  /logout:
+    post:
+      summary: ログアウト
+      tags:
+        - user
+      responses:
+        '204':
+          description: ログアウトしました
+      operationId: post-logout
+      description: ログアウトします
 tags:
   - name: user
   - name: guild
