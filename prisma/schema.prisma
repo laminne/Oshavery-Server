@@ -24,6 +24,20 @@ model messages {
   media      media[]
   guilds     guilds?  @relation(fields: [guildsId], references: [id])
   guildsId   String?
+  embeds     embeds?  @relation(fields: [embedsId], references: [id])
+  embedsId   String?
+}
+
+model embeds {
+  id      String  @id @default(uuid())
+  from    String?
+  images  String?
+  color   String?
+  icon    String?
+  content String
+  URL     String?
+
+  message messages[]
 }
 
 model emojis {
