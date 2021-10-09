@@ -41,13 +41,23 @@ export const checkJwt = jwt({
   algorithms: ['RS256']
 });
 
-app.use("/", router_info);
-app.use("/users", checkJwt, router_user);
-app.use("/guilds", checkJwt, router_guild);
-app.use("/", checkJwt, router_channel);
-app.use("/channels", checkJwt, router_message);
-app.use("/files", checkJwt, router_media);
-app.use("/", router_auth);
+if (process.env.NODE_ENV === "production"){
+  app.use("/", router_info);
+  app.use("/users", checkJwt, router_user);
+  app.use("/guilds", checkJwt, router_guild);
+  app.use("/", checkJwt, router_channel);
+  app.use("/channels", checkJwt, router_channel);
+  app.use("/files", checkJwt, router_media);
+}else {
+  app.use("/", router_info);
+  app.use("/users", router_user);
+  app.use("/guilds", router_guild);
+  app.use("/", router_channel);
+  app.use("/channels", router_message);
+  app.use("/files", router_media);
+  app.use("/", router_auth);
+  console.log(chalk.red("Now Working On ") + chalk.red.bold("*DEVELOP MODE*") + chalk.red(". Server ") + chalk.red.bold("*WILL NOT* ask for an authentication token."));
+}
 
 app.listen(3080,() => {
   console.log(chalk.red("░█████╗") + chalk.green("░░██████╗") + chalk.yellow("██╗░░██╗") + chalk.blue("░█████╗") + chalk.magenta("░██╗░░░██╗") + chalk.cyan("███████╗") + chalk.black("██████") + chalk.white("╗░██╗░░░██╗"))
@@ -57,6 +67,6 @@ app.listen(3080,() => {
   console.log(chalk.red("╚█████╔╝")+ chalk.green("██████╔╝")  + chalk.yellow("██║░░██║") + chalk.blue("██║░░██║") + chalk.magenta("░░╚██╔╝░░") + chalk.cyan("███████╗") + chalk.black("██")+ chalk.white("║") + chalk.black("░░██") + chalk.white("║░░░██║░░░"));
   console.log(chalk.red("░╚════╝░")+ chalk.green("╚═════╝░")  + chalk.yellow("╚═╝░░╚═╝") + chalk.blue("╚═╝░░╚═╝") + chalk.magenta("░░░╚═╝░░░") + chalk.cyan("╚══════╝") + chalk.white("╚═╝") + chalk.black("░░") + chalk.white("╚═╝░░░╚═╝░░░"));
 
-  console.log("\nOshavery(alpha) Revision " +  GIT_COMMIT_HASH + "\n|c| 2021 Oshavery Developers");
+  console.log("\nOshavery(alpha) Revision " +  GIT_COMMIT_HASH + "\n(c) 2021 Oshavery Developers");
   logger.info("Server listening at http://localhost:3080")
 });
