@@ -19,8 +19,6 @@ export async function login(req: express.Request, res: express.Response){
     password: req.body.password
   }
 
-
-
   // user情報を読み出す
   const user = await users.get(login_data.username);
 
