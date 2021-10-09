@@ -1,5 +1,5 @@
 import express from "express";
-const router_channel = express.Router();
+export const router_channel = express.Router();
 
 import { createChannel } from "../controllers/channels/createchannel";
 import {getChannels} from "../controllers/channels/getchannels";
@@ -15,4 +15,4 @@ router_channel.route("/guilds/:guildId/channels")
 //   .put(() => {console.log("ぷっとうえー")})
 //   .delete(() => {console.log("でりーとうえー")});
 
-module.exports = router_channel;
+// module.exports = router_channel;

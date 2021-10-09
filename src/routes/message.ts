@@ -1,4 +1,4 @@
-const router_message = require("express").Router();
+export const router_message = require("express").Router();
 import {getMessages, getOneMessage} from "../controllers/messages/getmessage";
 import {createMessage} from "../controllers/messages/createmessage";
 import {deleteMessage} from "../controllers/messages/deletemessage";
@@ -13,4 +13,4 @@ router_message.route("/:channelId/messages/:messageId")
   .patch(updateMessage)
   .delete(deleteMessage)
 
-module.exports = router_message;
+// module.exports = router_message;

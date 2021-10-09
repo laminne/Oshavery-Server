@@ -12,7 +12,8 @@ export interface user {
   id: string,
   name: string,
   bot: boolean,
-  avatarurl: string
+  avatarurl: string,
+  password: string
 }
 
 export class UserNotFoundError extends Error{}
@@ -26,7 +27,8 @@ export const users = {
       id: "",
       name: "",
       bot: true,
-      avatarurl: ""
+      avatarurl: "",
+      password: ""
     }
 
     const res = await prisma.users.findUnique({
@@ -43,7 +45,8 @@ export const users = {
         id: res.id,
         name: res.name,
         bot: res.bot,
-        avatarurl: res.avatarurl
+        avatarurl: res.avatarurl,
+        password: res.password
       };
     }
 
@@ -75,7 +78,8 @@ export const users = {
         bot: false,
         origin: "oshavery-app.net", // ToDo: オリジンの設定を変更できるようにする
         sub: data.sub,
-        avatarurl: data.avatar
+        avatarurl: data.avatar,
+        password: ""
       }
     });
 

@@ -6,12 +6,13 @@ import jwksRsa from "jwks-rsa";
 import dotenv from "dotenv";
 import chalk from "chalk";
 
-const infoRouter = require("./routes/info");
-const userRouter = require("./routes/user");
-const guildRouter = require("./routes/guild");
-const channelRouter = require("./routes/channel");
-const messageRouter = require("./routes/message");
-const mediaRouter = require("./routes/media");
+import {router_info} from "./routes/info";
+import {router_auth} from "./routes/auth";
+import {router_user} from "./routes/user";
+import {router_guild} from "./routes/guild";
+import {router_channel} from "./routes/channel";
+import {router_message} from "./routes/message";
+import {router_media} from "./routes/media";
 
 const app: express.Express = express();
 const GIT_COMMIT_HASH = process.env.GIT_COMMIT_HASH;
@@ -40,13 +41,13 @@ export const checkJwt = jwt({
   algorithms: ['RS256']
 });
 
-app.use("/", infoRouter);
-app.use("/users", checkJwt, userRouter);
-app.use("/guilds", checkJwt, guildRouter);
-app.use("/", checkJwt, channelRouter);
-app.use("/channels", checkJwt, messageRouter);
-app.use("/files", checkJwt, mediaRouter);
-
+app.use("/", router_info);
+app.use("/users", checkJwt, router_user);
+app.use("/guilds", checkJwt, router_guild);
+app.use("/", checkJwt, router_channel);
+app.use("/channels", checkJwt, router_message);
+app.use("/files", checkJwt, router_media);
+app.use("/", router_auth);
 
 app.listen(3080,() => {
   console.log(chalk.red("░█████╗") + chalk.green("░░██████╗") + chalk.yellow("██╗░░██╗") + chalk.blue("░█████╗") + chalk.magenta("░██╗░░░██╗") + chalk.cyan("███████╗") + chalk.black("██████") + chalk.white("╗░██╗░░░██╗"))

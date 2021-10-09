@@ -1,5 +1,5 @@
 import express from "express";
-const router_info = express.Router();
+export const router_info = express.Router();
 
 import {updateServerInfo} from "../controllers/info/updateserverinfo";
 import {getVersion} from "../controllers/info/getversion";
@@ -14,4 +14,3 @@ router_info.route("/server-info")
   .post(createServerInfo)
   .patch(updateServerInfo);
 
-module.exports = router_info;

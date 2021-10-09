@@ -1,5 +1,5 @@
 import express from "express";
-const router_guild = express.Router();
+export const router_guild = express.Router();
 
 import { memberList } from "../controllers/guilds/memberlist";
 import {createGuild} from "../controllers/guilds/createguild";
@@ -37,4 +37,4 @@ router_guild.route("/:guildId/members")
 //   .put(() => {console.log("ぷっとうえー")})
 //   .delete(() => {console.log("でりーとうえー")})
 
-module.exports = router_guild;
+// module.exports = router_guild;

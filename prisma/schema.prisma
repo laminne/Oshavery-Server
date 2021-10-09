@@ -94,11 +94,12 @@ model guild_users_mappings {
 
 model users {
   id                   String                 @id @default(uuid())
-  name                 String
+  name                 String                 @unique
   bot                  Boolean
   origin               String
   sub                  String                 @unique
   avatarurl            String
+  password             String
   medias               media[]
   messages             messages[]
   guild_users_mappings guild_users_mappings[]

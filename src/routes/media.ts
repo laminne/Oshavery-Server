@@ -1,5 +1,5 @@
 import express from "express";
-const router_media = express.Router();
+export const router_media = express.Router();
 
 import {getMedia} from "../controllers/medias/getmedia";
 import {uploadMedia} from "../controllers/medias/uploadmedia";
@@ -16,4 +16,4 @@ router_media.route("/:fileId")
   // ファイルはGCSからは削除しないことになった
   // ToDo: ファイルの論理削除の実装
 
-module.exports = router_media;
+// module.exports = router_media;
