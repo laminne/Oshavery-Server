@@ -10,7 +10,7 @@
     "start": "npx tsc -p . && echo *build done* &&node ./build/main.js",
     "build": "npx tsc -p .",
     "init": "npx tsc -p . && GIT_COMMIT_HASH=$(git rev-parse --short HEAD) node ./build/init/init.js",
-    "dev": "npx ts-node-dev --respawn ./src/main.ts",
+    "dev": "npx ts-node-dev --respawn ./src/main.ts"
   },
   "devDependencies": {
     "@types/express": "^4.17.13",
