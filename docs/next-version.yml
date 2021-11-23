@@ -1,13 +1,13 @@
 openapi: 3.0.0
 info:
   title: Oshavery API Document
-  version: alpha
+  version: 'alpha'
   description: Oshavery v0.5 API
   contact:
     name: Undecided
     url: 'https://github.com/Undecided-Discord/Oshavery'
 servers:
-  - url: 'http://localhost:3080'
+  - url: 'http://localhost:3000'
 paths:
   /version:
     get:
@@ -790,6 +790,112 @@ paths:
                   name: string
                   position: 0
                   topic: string
+  '/guilds/{guildId}/roles':
+    parameters:
+      - schema:
+          type: string
+        name: guildId
+        in: path
+        required: true
+        description: ギルドのID
+    get:
+      summary: ロール一覧を取得
+      tags:
+        - guild
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                description: ''
+                minItems: 1
+                uniqueItems: true
+                x-examples:
+                  example-1:
+                    - id: string
+                      name: string
+                      permissions: string
+                      mentionable: boolean
+                items:
+                  $ref: ./models/permissions.json
+              examples:
+                example:
+                  value:
+                    - id: string
+                      name: string
+                      permissions: string
+                      mentionable: true
+      operationId: get-guilds-guildId-roles
+      description: ロール一覧の取得
+    post:
+      summary: ロールを作成
+      tags:
+        - guild
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: ./models/permissions.json
+              examples:
+                example:
+                  value:
+                    id: string
+                    name: string
+                    permissions: string
+                    mentionable: true
+        '400':
+          description: Bad Request
+      operationId: post-guilds-guildId-roles
+      description: ロールの作成
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: ./models/create_role.json
+            examples:
+              example:
+                value:
+                  name: string
+                  permissions: string
+                  mentionable: true
+    patch:
+      summary: ロールの編集
+      tags:
+        - guild
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+      operationId: patch-guilds-guildId-roles
+      description: ロールの編集
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: ./models/permissions.json
+            examples:
+              example:
+                value:
+                  id: string
+                  name: string
+                  permissions: string
+                  mentionable: true
+    delete:
+      summary: ''
+      operationId: delete-guilds-guildId-roles
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+      description: ロールの削除
+      tags:
+        - guild
   /users/me:
     get:
       summary: 自分の情報を取得
@@ -1254,6 +1360,296 @@ paths:
           description: Not Found
       operationId: delete-guilds-guildId-members-userId
       description: ユーザーをキック
+  '/guilds/{guildId}/invites':
+    parameters:
+      - schema:
+          type: string
+        name: guildId
+        in: path
+        required: true
+        description: ギルドID
+    get:
+      summary: 招待リンク一覧を取得
+      tags:
+        - guild
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                description: ''
+                minItems: 1
+                uniqueItems: true
+                x-examples:
+                  example-1:
+                    - id: string
+                      guild_id: string
+                      channel_id: string
+                      expries_at: string
+                items:
+                  $ref: ./models/invites.json
+              examples:
+                example:
+                  value:
+                    - id: 296c4cb5-c5fc-494b-9b06-b72995a79f5f
+                      guild_id: 3de4eac9-4db8-4425-9060-cb0822331dd8
+                      channel_id: 9e00ab9f-69b8-43a5-8d9a-d86285c0b805
+                      expries_at: '2021-08-11T22:38:13+09:00'
+      operationId: get-guilds-guildId-invites
+      description: ギルドへの招待リンク一覧を取得
+    post:
+      summary: 招待リンクの生成
+      tags:
+        - guild
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  id:
+                    type: string
+                    minLength: 1
+                  guild_id:
+                    type: string
+                    minLength: 1
+                  channel_id:
+                    type: string
+                    minLength: 1
+                  expries_at:
+                    type: string
+                    minLength: 1
+                required:
+                  - id
+                  - guild_id
+                  - channel_id
+                  - expries_at
+                x-examples:
+                  example-1:
+                    id: string
+                    guild_id: string
+                    channel_id: string
+                    expries_at: string
+              examples:
+                example:
+                  value:
+                    id: string
+                    guild_id: string
+                    channel_id: string
+                    expries_at: string
+      operationId: post-guilds-guildId-invites
+      description: 招待リンクの生成
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: ./models/create_invite.json
+            examples:
+              example-1:
+                value:
+                  guild_id: string
+                  channel_id: string
+                  expries_at: string
+  '/guilds/{guildId}/invites/{inviteId}':
+    parameters:
+      - schema:
+          type: string
+        name: guildId
+        in: path
+        required: true
+      - schema:
+          type: string
+        name: inviteId
+        in: path
+        required: true
+    put:
+      summary: 特定の招待リンクの編集
+      tags:
+        - guild
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: ./models/invites.json
+              examples:
+                example:
+                  value:
+                    id: string
+                    guild_id: string
+                    channel_id: string
+                    expries_at: string
+      operationId: put-guilds-guildId-invites-inviteId
+      description: ''
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: ''
+              type: object
+              properties:
+                expries_at:
+                  type: string
+                  minLength: 1
+              required:
+                - expries_at
+              x-examples:
+                example-1:
+                  expries_at: string
+            examples:
+              example:
+                value:
+                  expries_at: string
+    delete:
+      summary: 招待リンクの削除
+      tags:
+        - guild
+      responses:
+        '204':
+          description: No Content
+        '404':
+          description: Not Found
+      operationId: delete-guilds-guildId-invites-inviteId
+  '/channels/{channelId}/permissions':
+    parameters:
+      - schema:
+          type: string
+        name: channelId
+        in: path
+        required: true
+    get:
+      summary: 現在のチャンネル権限を取得
+      tags:
+        - channel
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: ./models/permissions.json
+              examples:
+                example:
+                  value:
+                    - id: string
+                      name: string
+                      permissions: string
+                      mentionable: true
+        '400':
+          description: Bad Request
+      operationId: get-channels-channelId-permissions
+    post:
+      summary: 権限設定の作成
+      tags:
+        - channel
+      responses:
+        '201':
+          description: Created
+        '403':
+          description: Forbidden
+      operationId: post-channels-channelId-permissions
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: ./models/create_role.json
+            examples:
+              example:
+                value:
+                  name: string
+                  permissions: string
+                  mentionable: true
+    put:
+      summary: 権限設定の更新
+      tags:
+        - channel
+      responses:
+        '200':
+          description: OK
+      operationId: put-channels-channelId-permissions
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: ./models/create_role.json
+            examples:
+              example-1:
+                value:
+                  name: string
+                  permissions: string
+                  mentionable: true
+    delete:
+      summary: ''
+      operationId: delete-channels-channelId-permissions
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+      tags:
+        - channel
+  /bots:
+    post:
+      summary: Botのアカウントを作成
+      tags:
+        - user
+      responses:
+        '201':
+          description: Created
+      operationId: post-bots
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: ./models/creare_bot.json
+            examples:
+              example:
+                value:
+                  description: string
+                  name: string
+    get:
+      summary: Botのリストを取得
+      tags:
+        - user
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: ./models/bots.json
+              examples:
+                example:
+                  value:
+                    - id: string
+                      botUserId: string
+                      description: string
+                      owner:
+                        id: string
+                        name: string
+                        avator: string
+                        bot: true
+                        state: 0
+                      state: 0
+                      created_at: string
+                      updated_at: string
+      operationId: get-bots
+    delete:
+      summary: Botを削除
+      tags:
+        - user
+      responses:
+        '204':
+          description: No Content
+      operationId: delete-bots
   /guilds:
     post:
       summary: ギルドの作成
@@ -1317,6 +1713,53 @@ paths:
             schema:
               type: object
               properties: {}
+  '/emojis/{guildId}':
+    parameters:
+      - schema:
+          type: string
+        name: guildId
+        in: path
+        required: true
+    get:
+      summary: サーバー内のカスタム絵文字一覧を表示
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: ./models/emojis.json
+              examples:
+                example-1:
+                  value:
+                    - id: string
+                      name: string
+                      creator_id: string
+                      mediaId: string
+      operationId: get-emojis-guildId
+    put:
+      summary: サーバーカスタム絵文字を変更
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: ./models/emojis.json
+              examples:
+                example-1:
+                  value:
+                    - id: string
+                      name: string
+                      creator_id: string
+                      mediaId: string
+      operationId: put-emojis-guildId
   /files:
     post:
       summary: ファイルをアップロード
@@ -1335,7 +1778,6 @@ paths:
                 properties: {}
               examples: {}
       operationId: post-files
-      description: '!現在のバージョンでは使用不可です'
     parameters: []
   '/files/{fileId}':
     parameters:
@@ -1368,7 +1810,6 @@ paths:
                     uploader_id: string
                     media_url: string
       operationId: get-files-fileId
-      description: '!現在のバージョンでは使用不可です'
     delete:
       summary: ファイルの削除
       tags:
@@ -1377,6 +1818,42 @@ paths:
         '204':
           description: No Content
       operationId: delete-files-fileId
+  '/emojis/{emojiId}':
+    parameters:
+      - schema:
+          type: string
+        name: emojiId
+        in: path
+        required: true
+    post:
+      summary: 絵文字の登録
+      tags:
+        - emojis
+      responses:
+        '200':
+          description: OK
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: ./models/emojis.json
+      operationId: post-emojis-emojiId
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties: {}
+        description: |-
+          `file`: 絵文字のファイル
+          `guildId`: 登録先ギルドUUID
+          `short_names`: 絵文字エイリアス `:<something>:`
+    delete:
+      summary: 絵文字の削除
+      tags:
+        - emojis
+      responses: {}
+      operationId: delete-emojis-emojiId
 tags:
   - name: user
   - name: guild
